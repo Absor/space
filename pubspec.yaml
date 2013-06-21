@@ -1,0 +1,9 @@
+name: space
+version: 0.1.0
+author: Heikki Haapala <hhaapala@gmail.com>
+dependencies:
+  browser: any
+  siege_engine:
+    git: git://github.com/Absor/siege_engine.git
+  vector_math:
+    git: git://github.com/johnmccutchan/vector_math.git
