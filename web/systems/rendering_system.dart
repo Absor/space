@@ -16,8 +16,8 @@ class RenderingSystem implements System {
   void process(num timeDelta) {
     if (_centerEntity == null) return;
     
-    PositionComponent cPC = _centerEntity.getComponent(PositionComponent);
-    Vector2 centerPosition = cPC.position;
+    PositionComponent cpc = _centerEntity.getComponent(PositionComponent);
+    Vector2 centerPosition = cpc.position;
     
     for (Entity entity in _renderables) {
       RenderComponent renderable = entity.getComponent(RenderComponent);

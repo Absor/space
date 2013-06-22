@@ -21,7 +21,7 @@ class PathFollowerSystem implements System {
       
       Vector2 target;
       num minDistance = 1000000;
-      Vector2 predictLoc = pc.position + vc.velocity;
+      Vector2 predictLoc = pc.position + vc.velocity.normalized().scale(50.0);
       
       for (int i = 0; i < pfc.pathPoints.length; i++) {
         Vector2 a = pfc.pathPoints[i];
@@ -32,7 +32,8 @@ class PathFollowerSystem implements System {
           b = pfc.pathPoints[i+1];
         }
         Vector2 normalPoint = _getNormalPoint(predictLoc, a, b);
-        if (normalPoint.x < a.x || normalPoint.x > b.x) {
+        if (normalPoint.x < min(a.x, b.x) || normalPoint.x > max(a.x, b.x) ||
+            normalPoint.y < min(a.y, b.y) || normalPoint.y > max(a.y, b.y)) {
           normalPoint = b.clone();
         }
         
@@ -41,7 +42,7 @@ class PathFollowerSystem implements System {
         if (distance < minDistance) {
           minDistance = distance;
           
-          Vector2 dir = (b - a).normalize().scale(vc.maxVelocity.toDouble());
+          Vector2 dir = (b - a).normalize().scale(50.0);
           fc.targetPosition = normalPoint.add(dir);
         }
       }

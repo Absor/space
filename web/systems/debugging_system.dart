@@ -7,17 +7,25 @@ class DebuggingSystem implements System {
   
   List<Entity> _velocityEntities;
   List<Entity> _wanderingEntities;
+  List<Entity> _pathEntities;
+  List<Entity> _collisionEntities;
   Entity _centerEntity;
   
   bool _drawVelocities;
   bool _drawWandering;
+  bool _drawPaths;
+  bool _drawCollision;
     
   DebuggingSystem() {
     _velocityEntities = new List<Entity>();
     _wanderingEntities = new List<Entity>();
+    _pathEntities = new List<Entity>();
+    _collisionEntities = new List<Entity>();
     
     _drawVelocities = true;
     _drawWandering = true;
+    _drawPaths = true;
+    _drawCollision = true;
   }
   
   void process(num timeDelta) {
@@ -73,6 +81,48 @@ class DebuggingSystem implements System {
         canvasManager.context.restore();
       }
     }
+    if (_drawPaths) {
+      for (Entity entity in _pathEntities) {
+        PathFollowerComponent pfc = entity.getComponent(PathFollowerComponent);
+        canvasManager.context.save();
+        num distanceScaler = canvasManager.drawScaler * settings.pixelsPerMeter;
+        canvasManager.context.translate(
+            (-centerPosition.x) * distanceScaler + canvasManager.canvasMiddlePoint.x,
+            (-centerPosition.y) * distanceScaler + canvasManager.canvasMiddlePoint.y);
+        canvasManager.context.scale(distanceScaler, distanceScaler);
+        canvasManager.context.strokeStyle = "yellow";
+        canvasManager.context.lineWidth = 5;
+        canvasManager.context.beginPath();
+        canvasManager.context.moveTo(pfc.pathPoints[0].x, pfc.pathPoints[0].y);
+        for (int i = 1; i < pfc.pathPoints.length - 1; i++) {
+          canvasManager.context.lineTo(pfc.pathPoints[i].x, pfc.pathPoints[i].y);
+        }
+        canvasManager.context.lineTo(pfc.pathPoints[0].x, pfc.pathPoints[0].y);
+        canvasManager.context.closePath();
+        canvasManager.context.stroke();
+        canvasManager.context.restore();
+      }
+    }
+    if (_drawCollision) {
+      for (Entity entity in _collisionEntities) {
+        CollisionComponent cc = entity.getComponent(CollisionComponent);
+        PositionComponent pc = entity.getComponent(PositionComponent);
+        Vector2 position = pc.position;
+        canvasManager.context.save();
+        num distanceScaler = canvasManager.drawScaler * settings.pixelsPerMeter;
+        canvasManager.context.translate(
+            (position.x - centerPosition.x) * distanceScaler + canvasManager.canvasMiddlePoint.x,
+            (position.y - centerPosition.y) * distanceScaler + canvasManager.canvasMiddlePoint.y);
+        canvasManager.context.scale(distanceScaler, distanceScaler);
+        canvasManager.context.strokeStyle = "orange";
+        canvasManager.context.lineWidth = 5;
+        canvasManager.context.beginPath();
+        canvasManager.context.arc(0, 0, cc.collisionRadius, 0, PI*2);
+        canvasManager.context.closePath();
+        canvasManager.context.stroke();
+        canvasManager.context.restore();
+      }
+    }
   }
     
   void attachWorld(World world) {
@@ -94,11 +144,20 @@ class DebuggingSystem implements System {
         entity.hasComponent(WandererComponent)) {
       _wanderingEntities.add(entity);
     }
+    if (entity.hasComponent(PathFollowerComponent)) {
+      _pathEntities.add(entity);
+    }
+    if (entity.hasComponent(CollisionComponent) &&
+        entity.hasComponent(PositionComponent)) {
+      _collisionEntities.add(entity);
+    }
   }
   
   void entityDeactivation(Entity entity) {
     if (entity == _centerEntity) _centerEntity = null;
     _velocityEntities.remove(entity);
     _wanderingEntities.remove(entity);
+    _pathEntities.remove(entity);
+    _collisionEntities.remove(entity);
   }
 }

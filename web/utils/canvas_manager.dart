@@ -18,6 +18,7 @@ class CanvasManager {
   CanvasRenderingContext2D get context => _context;
   num get drawScaler => _drawScaler;
   Point get canvasMiddlePoint => _canvasMiddlePoint;
+  Rect get canvasDrawArea => _canvasDrawArea;
   
   void _resize() {
     _canvas.height = window.innerHeight;
