@@ -6,14 +6,12 @@ class EntitySpawningSystem implements System {
   int priority;
   
   World _world;
-  IdManager _idManager;
   Entity _player;
   
   num _spawnTimer;
     
   EntitySpawningSystem() {
     _spawnTimer = 25000;
-    _idManager = new IdManager();
   }
   
   void _addBackground() {    
@@ -32,7 +30,7 @@ class EntitySpawningSystem implements System {
     
     for (int y = 0; y < 3; y++) {
       for (int x = 0; x < 3; x++) {
-        Entity background = _world.createEntity(_idManager.getFreeId());
+        Entity background = _world.createEntity(idManager.getFreeId());
         background.addComponent(rc);
         PositionComponent pc = new PositionComponent();
         pc.position = new Vector2((-4096 + 4096 * x).toDouble(),
@@ -45,13 +43,17 @@ class EntitySpawningSystem implements System {
   }
   
   void _addPlayer() {
-    _player = _world.createEntity(_idManager.getFreeId());
+    _player = _world.createEntity(idManager.getFreeId());
     componentAttacher.attachPlayerComponents(_player);
+    Entity turret = _world.createEntity(idManager.getFreeId());
+    componentAttacher.attachTurretComponents(turret, _player.id);
+    
     _world.activateEntity(_player.id);
+    _world.activateEntity(turret.id);
   }
   
   void _addEnemy() {
-    Entity enemy = _world.createEntity(_idManager.getFreeId());
+    Entity enemy = _world.createEntity(idManager.getFreeId());
     componentAttacher.attachBasicEnemyComponents(enemy);
     _world.activateEntity(enemy.id);
   }

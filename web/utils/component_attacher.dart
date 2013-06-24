@@ -2,6 +2,63 @@ part of space;
 
 class ComponentAttacher {
   
+  void attachBulletComponents(Entity bullet) {
+    RenderComponent rc = new RenderComponent();
+    rc.imageScaler = 2;
+    rc.sourceWidth = 12;
+    rc.sourceHeight = 23;
+    rc.sourceX = 0;
+    rc.sourceY = 0;
+    rc.xOffset = -6;
+    rc.yOffset = -11.5;
+    rc.source = new ImageElement(src:"assets/testbullet.png");
+    bullet.addComponent(rc);
+    
+    PositionComponent pc = new PositionComponent();
+    pc.position = new Vector2.zero();
+    bullet.addComponent(pc);
+    
+    RotationComponent rotation = new RotationComponent();
+    rotation.angleInDegrees = 0;
+    bullet.addComponent(rotation);
+    
+    AccelerationComponent ac = new AccelerationComponent();
+    ac.acceleration = new Vector2(0.0, 0.0);
+    ac.maxForce = 0;
+    bullet.addComponent(ac);
+    
+    VelocityComponent vc = new VelocityComponent();
+    vc.velocity = new Vector2(2000.0, 0.0);
+    vc.maxVelocity = 2000;
+    bullet.addComponent(vc);
+    
+    CollisionComponent cc = new CollisionComponent();
+    cc.collisionRadius = 10;
+    bullet.addComponent(cc);
+  }
+  
+  void attachTargetComponents(Entity target, int attachId) {
+    RenderComponent rc = new RenderComponent();
+    rc.imageScaler = 1;
+    rc.sourceWidth = 256;
+    rc.sourceHeight = 256;
+    rc.sourceX = 0;
+    rc.sourceY = 0;
+    rc.xOffset = -128;
+    rc.yOffset = -128;
+    rc.source = new ImageElement(src:"assets/target.png");
+    target.addComponent(rc);
+    
+    PositionComponent pc = new PositionComponent();
+    pc.position = new Vector2.zero();
+    target.addComponent(pc);
+    
+    AttachComponent ac = new AttachComponent();
+    ac.targetId = attachId;
+    ac.offset = new Vector2.zero();
+    target.addComponent(ac);
+  }
+  
   void attachPlayerComponents(Entity player) {
     RenderComponent rc = new RenderComponent();
     rc.imageScaler = 1;
@@ -37,6 +94,41 @@ class ComponentAttacher {
     player.addComponent(cc);
     
     player.addComponent(new CameraCenteringComponent());
+  }
+  
+  void attachTurretComponents(Entity turret, int attachId) {
+    RenderComponent rc = new RenderComponent();
+    rc.imageScaler = 2;
+    rc.sourceWidth = 14;
+    rc.sourceHeight = 45;
+    rc.sourceX = 0;
+    rc.sourceY = 0;
+    rc.xOffset = -7;
+    rc.yOffset = -33;
+    rc.source = new ImageElement(src:"assets/testturret.png");
+    turret.addComponent(rc);
+    
+    PositionComponent pc = new PositionComponent();
+    pc.position = new Vector2.zero();
+    turret.addComponent(pc);
+    
+    RotationComponent rotation = new RotationComponent();
+    rotation.angleInDegrees = 0;
+    turret.addComponent(rotation);
+    
+    AttachComponent ac = new AttachComponent();
+    ac.targetId = attachId;
+    ac.offset = new Vector2(0.0, 60.0);
+    turret.addComponent(ac);
+    
+    WeaponTriggerComponent wtc = new WeaponTriggerComponent();
+    wtc.triggered = false;
+    turret.addComponent(wtc);
+    
+    RepeatingWeaponComponent rwc = new RepeatingWeaponComponent();
+    rwc.timeBetweenShots = 100;
+    rwc.timeSinceLast = 0;
+    turret.addComponent(rwc);
   }
   
   void attachBasicEnemyComponents(Entity enemy) {
@@ -89,8 +181,10 @@ class ComponentAttacher {
     num distance = new Random().nextInt(600) + 400;
     for (int i = 0; i < 9; i++) {
       num angle = 2*PI * (i/8);
-      pfc.pathPoints.add(new Vector2(distance*cos(angle), distance*sin(angle)));
+      pfc.pathPoints.add(new Vector2(distance*cos(angle), distance*sin(angle)*0.6));
     }
     enemy.addComponent(pfc);
+    
+    enemy.addComponent(new EnemyComponent());
   }
 }

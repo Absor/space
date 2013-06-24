@@ -23,6 +23,7 @@ class GameScene implements Scene {
     AttachSystem attachSystem = new AttachSystem();
     WeaponTriggeringSystem weaponTriggeringSystem = new WeaponTriggeringSystem();
     _uiSystem = new UISystem();
+    WeaponShootingSystem weaponShootingSystem = new WeaponShootingSystem();
     
     _renderingSystem.enabled = false;
     movementSystem.enabled = true;
@@ -34,6 +35,7 @@ class GameScene implements Scene {
     attachSystem.enabled = true;
     weaponTriggeringSystem.enabled = true;
     _uiSystem.enabled = false;
+    weaponShootingSystem.enabled = true;
     
     entitySpawningSystem.priority = 0;
     
@@ -47,11 +49,12 @@ class GameScene implements Scene {
     // attach after movement
     attachSystem.priority = 20;
     
-    weaponTriggeringSystem.priority = 30;
+    weaponTriggeringSystem.priority = 40;
+    weaponShootingSystem.priority = 50;
     
-    // debugging draws on other (not used
-    _renderingSystem.priority = 50;
-    _uiSystem.priority = 60;
+    // debugging draws on other (not used)
+    _renderingSystem.priority = 80;
+    _uiSystem.priority = 90;
     _debuggingSystem.priority = 100;
     
     _world.addSystem(entitySpawningSystem);
@@ -64,6 +67,7 @@ class GameScene implements Scene {
     _world.addSystem(attachSystem);
     _world.addSystem(weaponTriggeringSystem);
     _world.addSystem(_uiSystem);
+    _world.addSystem(weaponShootingSystem);
   }
   
   void draw() {

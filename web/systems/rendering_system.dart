@@ -23,14 +23,20 @@ class RenderingSystem implements System {
       RenderComponent renderable = entity.getComponent(RenderComponent);
       PositionComponent pc = entity.getComponent(PositionComponent);
       Vector2 position = pc.position;
-      RotationComponent rotation = entity.getComponent(RotationComponent);
       canvasManager.context.save();
-      num positionScaler = canvasManager.drawScaler * settings.pixelsPerMeter;
+      num distanceScaler = canvasManager.drawScaler * settings.pixelsPerMeter;
       canvasManager.context.translate(
-          (position.x - centerPosition.x) * positionScaler + canvasManager.canvasMiddlePoint.x,
-          (position.y - centerPosition.y) * positionScaler + canvasManager.canvasMiddlePoint.y);
-      canvasManager.context.rotate(rotation.angleInRadians);
-      num imageScaler = renderable.imageScaler * positionScaler;
+          (position.x - centerPosition.x) * distanceScaler + canvasManager.canvasMiddlePoint.x,
+          (position.y - centerPosition.y) * distanceScaler + canvasManager.canvasMiddlePoint.y);
+      if (entity.hasComponent(RotationComponent)) {
+        RotationComponent rotation = entity.getComponent(RotationComponent);
+        canvasManager.context.rotate(rotation.angleInRadians);
+      }
+      if (entity.hasComponent(AlphaComponent)) {
+        AlphaComponent ac = entity.getComponent(AlphaComponent);
+        canvasManager.context.globalAlpha = ac.alpha;
+      }
+      num imageScaler = renderable.imageScaler * distanceScaler;
       canvasManager.context.scale(imageScaler, imageScaler);
       canvasManager.context.drawImageScaledFromSource(renderable.source,
           renderable.sourceX, renderable.sourceY,
@@ -49,8 +55,7 @@ class RenderingSystem implements System {
   
   void entityActivation(Entity entity) {
     if (entity.hasComponent(RenderComponent) &&
-        entity.hasComponent(PositionComponent) &&
-        entity.hasComponent(RotationComponent)) {
+        entity.hasComponent(PositionComponent)) {
       _renderables.add(entity);
     }
     if (entity.hasComponent(CameraCenteringComponent) &&

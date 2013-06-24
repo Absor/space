@@ -10,6 +10,7 @@ class DebuggingSystem implements System {
   List<Entity> _pathEntities;
   List<Entity> _collisionEntities;
   Entity _centerEntity;
+  int _entityCount;
   
   bool _drawVelocities;
   bool _drawWandering;
@@ -17,6 +18,7 @@ class DebuggingSystem implements System {
   bool _drawCollision;
     
   DebuggingSystem() {
+    _entityCount = 0;
     _velocityEntities = new List<Entity>();
     _wanderingEntities = new List<Entity>();
     _pathEntities = new List<Entity>();
@@ -122,6 +124,17 @@ class DebuggingSystem implements System {
         canvasManager.context.stroke();
         canvasManager.context.restore();
       }
+      
+      // Entity count
+      canvasManager.context.save();
+      canvasManager.context.translate(        canvasManager.canvasDrawArea.right,
+          canvasManager.canvasDrawArea.bottom);
+      canvasManager.context.scale(canvasManager.drawScaler, canvasManager.drawScaler);
+      int px = (canvasManager.drawScaler * 30).ceil();
+      canvasManager.context.font = px.toString() + "px Arial";
+      canvasManager.context.fillStyle = "green";
+      canvasManager.context.fillText("Entities: $_entityCount", -100, -10);
+      canvasManager.context.restore();
     }
   }
     
@@ -132,6 +145,7 @@ class DebuggingSystem implements System {
   }
   
   void entityActivation(Entity entity) {
+    _entityCount++;
     if (entity.hasComponent(CameraCenteringComponent)) {
       _centerEntity = entity;
     }
@@ -154,6 +168,7 @@ class DebuggingSystem implements System {
   }
   
   void entityDeactivation(Entity entity) {
+    _entityCount--;
     if (entity == _centerEntity) _centerEntity = null;
     _velocityEntities.remove(entity);
     _wanderingEntities.remove(entity);

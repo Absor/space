@@ -6,7 +6,7 @@ class CanvasManager {
   CanvasRenderingContext2D _context;
   Rect _canvasDrawArea;
   num _drawScaler;
-  Point _canvasMiddlePoint;
+  Vector2 _canvasMiddlePoint;
   
   CanvasManager(this._canvas) {
     _context = _canvas.context2D;
@@ -17,7 +17,7 @@ class CanvasManager {
   CanvasElement get canvas => _canvas;
   CanvasRenderingContext2D get context => _context;
   num get drawScaler => _drawScaler;
-  Point get canvasMiddlePoint => _canvasMiddlePoint;
+  Vector2 get canvasMiddlePoint => _canvasMiddlePoint;
   Rect get canvasDrawArea => _canvasDrawArea;
   
   void _resize() {
@@ -43,7 +43,7 @@ class CanvasManager {
     
     _canvasDrawArea = new Rect(left, top, width, height);
     _drawScaler = width / settings.screenWidth;
-    _canvasMiddlePoint = new Point(_canvas.width / 2, _canvas.height / 2);
+    _canvasMiddlePoint = new Vector2(_canvas.width / 2, _canvas.height / 2);
   }
   
   void clearCanvas() {

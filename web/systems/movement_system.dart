@@ -27,7 +27,7 @@ class MovementSystem implements System {
       pc.position.add(vc.velocity * timeInSeconds);
       // reset acceleration
       ac.acceleration.setZero();
-      if (vc.velocity.y != 0 && entity.hasComponent(RotationComponent)) {
+      if (vc.velocity.length != 0 && entity.hasComponent(RotationComponent)) {
         RotationComponent rc = entity.getComponent(RotationComponent);
         rc.angleInRadians = atan2(vc.velocity.x, -vc.velocity.y);
       }

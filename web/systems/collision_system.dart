@@ -5,14 +5,26 @@ class CollisionSystem implements System {
   bool enabled;
   int priority;
   
-  List<Entity> _collidingEntities;
+  Entity _player;
+  List<Entity> _enemies;
+  List<Entity> _playerShots;
+  List<Entity> _enemyShots;
     
   CollisionSystem() {
-    _collidingEntities = new List<Entity>();
+    _enemies = new List<Entity>();
+    _playerShots = new List<Entity>();
+    _enemyShots = new List<Entity>();
   }
     
   void process(num timeDelta) {
-    for (Entity entity in _collidingEntities) {
+    if (_player == null) return;
+    for (Entity enemy in _enemies) {
+      for (Entity playerShot in _playerShots) {
+        
+      }
+    }
+    
+    for (Entity enemyShot in _enemyShots) {
       
     }
   }
@@ -26,11 +38,11 @@ class CollisionSystem implements System {
   void entityActivation(Entity entity) {
     if (entity.hasComponent(CollisionComponent) &&
         entity.hasComponent(PositionComponent)) {
-      _collidingEntities.add(entity);
+      _enemies.add(entity);
     }
   }
   
   void entityDeactivation(Entity entity) {
-    _collidingEntities.remove(entity);
+    _enemies.remove(entity);
   }
 }

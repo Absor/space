@@ -5,20 +5,28 @@ class UISystem implements System {
   bool enabled;
   int priority;
   
-  List<Entity> _collidingEntities;
-    
+  World _world;
+  List<Entity> _enemyEntities;
+  Entity _target;
+  Entity _centerEntity;
+      
   UISystem() {
-    _collidingEntities = new List<Entity>();
+    _enemyEntities = new List<Entity>();
   }
     
   void process(num timeDelta) {
+    if (_centerEntity == null) return;
+    if (inputManager.isMouseDown) {
+      // first ui element check, then if not, this
+      inputManager.isMouseDown = false;
+      _findTarget(inputManager.canvasMousePosition);
+    }
     
     // Bottom half-circle with HP info
     canvasManager.context.save();
-    num scaler = canvasManager.canvasDrawArea.height / settings.screenHeight;
     canvasManager.context.translate(canvasManager.canvasMiddlePoint.x,
         canvasManager.canvasDrawArea.bottom);
-    canvasManager.context.scale(scaler, scaler);
+    canvasManager.context.scale(canvasManager.drawScaler, canvasManager.drawScaler);
     canvasManager.context.globalAlpha = 0.4;
     // Shield
     canvasManager.context.fillStyle = "blue";
@@ -37,21 +45,60 @@ class UISystem implements System {
     canvasManager.context.fill();
     canvasManager.context.restore();
   }
+  
+  void _findTarget(Vector2 canvasPosition) {
+    Vector2 worldPosition = canvasPosition - canvasManager.canvasMiddlePoint;
+    num positionScaler = canvasManager.drawScaler * settings.pixelsPerMeter;
+    worldPosition.scale(1/positionScaler);
+    PositionComponent worldMiddle = _centerEntity.getComponent(PositionComponent);
+    worldPosition.add(worldMiddle.position);
+    
+    int id;
+    num minDistance = 1e10;
+    for (Entity enemy in _enemyEntities) {
+      PositionComponent pc = enemy.getComponent(PositionComponent);
+      num distanceFromPoint = (pc.position - worldPosition).length2;
+      if (distanceFromPoint < minDistance) {
+        minDistance = distanceFromPoint;
+        id = enemy.id;
+      }
+    }
+    if (id != null) _setTarget(id);
+  }
+  
+  void _setTarget(int id) {
+    if (_target == null) {
+      _target = _world.createEntity(idManager.getFreeId());
+      componentAttacher.attachTargetComponents(_target, id);
+      _world.activateEntity(_target.id);
+    } else {
+      AttachComponent ac = _target.getComponent(AttachComponent);
+      ac.targetId = id;
+    }
+  }
     
   void attachWorld(World world) {
+    _world = world;
   }
   
   void detachWorld() {
+    _world = null;
   }
   
   void entityActivation(Entity entity) {
-    if (entity.hasComponent(CollisionComponent) &&
+    if (entity.hasComponent(CameraCenteringComponent) &&
         entity.hasComponent(PositionComponent)) {
-      _collidingEntities.add(entity);
+      _centerEntity = entity;
+    }
+    if (entity.hasComponent(PositionComponent) &&
+        entity.hasComponent(EnemyComponent)) {
+      _enemyEntities.add(entity);
     }
   }
   
   void entityDeactivation(Entity entity) {
-    _collidingEntities.remove(entity);
+    if (entity == _centerEntity) _centerEntity = null;
+    _enemyEntities.remove(entity);
+    if (entity == _target) _target = null;
   }
 }
