@@ -1,6 +1,6 @@
 part of space;
 
-class RenderComponent extends Component {
+class ImageComponent extends Component {
   CanvasImageSource source;
   num sourceX;
   num sourceY;

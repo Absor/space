@@ -1,0 +1,44 @@
+{"frames": [
+
+{
+	"filename": "target.png",
+	"frame": {"x":2,"y":2,"w":242,"h":194},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":9,"w":242,"h":194},
+	"sourceSize": {"w":256,"h":256}
+},
+{
+	"filename": "testbullet.png",
+	"frame": {"x":496,"y":49,"w":12,"h":23},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":23},
+	"sourceSize": {"w":12,"h":23}
+},
+{
+	"filename": "testship.png",
+	"frame": {"x":246,"y":2,"w":182,"h":248},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":182,"h":248},
+	"sourceSize": {"w":182,"h":248}
+},
+{
+	"filename": "testturret.png",
+	"frame": {"x":496,"y":2,"w":14,"h":45},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":45},
+	"sourceSize": {"w":14,"h":45}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker ",
+	"version": "1.0",
+	"image": "atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":512,"h":198},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:18f66c4c3f2dfff3406dc8721846691f$"
+}
+}

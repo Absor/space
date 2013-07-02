@@ -1,0 +1,10 @@
+{
+  "images" : [
+    "assets/images/background.png"
+  ],
+  "sound" : [
+  ],
+  "json" : {
+    "image_components" : "assets/json/image_components.json"
+  }
+}

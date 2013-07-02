@@ -4,7 +4,7 @@ class GameScene implements Scene {
   
   World _world;
   Timer _gameTick;
-  RenderingSystem _renderingSystem;
+  ImageRenderingSystem _imageRenderingSystem;
   DebuggingSystem _debuggingSystem;
   UISystem _uiSystem;
   
@@ -13,7 +13,7 @@ class GameScene implements Scene {
   GameScene() {
     _processing = false;
     _world = new World();
-    _renderingSystem = new RenderingSystem();
+    _imageRenderingSystem = new ImageRenderingSystem();
     MovementSystem movementSystem = new MovementSystem();
     FollowerSystem followerSystem = new FollowerSystem();
     EntitySpawningSystem entitySpawningSystem = new EntitySpawningSystem();
@@ -24,8 +24,9 @@ class GameScene implements Scene {
     WeaponTriggeringSystem weaponTriggeringSystem = new WeaponTriggeringSystem();
     _uiSystem = new UISystem();
     WeaponShootingSystem weaponShootingSystem = new WeaponShootingSystem();
+    TargetPredictingSystem targetPredictingSystem = new TargetPredictingSystem();
     
-    _renderingSystem.enabled = false;
+    _imageRenderingSystem.enabled = false;
     movementSystem.enabled = true;
     followerSystem.enabled = true;
     entitySpawningSystem.enabled = true;
@@ -36,6 +37,7 @@ class GameScene implements Scene {
     weaponTriggeringSystem.enabled = true;
     _uiSystem.enabled = false;
     weaponShootingSystem.enabled = true;
+    targetPredictingSystem.enabled = true;
     
     entitySpawningSystem.priority = 0;
     
@@ -49,18 +51,23 @@ class GameScene implements Scene {
     // attach after movement
     attachSystem.priority = 20;
     
+    // 1. choose target
+    // 2. target chosen target
+    targetPredictingSystem.priority = 30;
+    // 3. trigger weapon
     weaponTriggeringSystem.priority = 40;
+    // 4. shoot weapon
     weaponShootingSystem.priority = 50;
     
     // debugging draws on other (not used)
-    _renderingSystem.priority = 80;
+    _imageRenderingSystem.priority = 80;
     _uiSystem.priority = 90;
     _debuggingSystem.priority = 100;
     
     _world.addSystem(entitySpawningSystem);
     _world.addSystem(followerSystem);
     _world.addSystem(movementSystem);
-    _world.addSystem(_renderingSystem);
+    _world.addSystem(_imageRenderingSystem);
     _world.addSystem(_debuggingSystem);
     _world.addSystem(wandererSystem);
     _world.addSystem(pathFollowerSystem);
@@ -68,11 +75,12 @@ class GameScene implements Scene {
     _world.addSystem(weaponTriggeringSystem);
     _world.addSystem(_uiSystem);
     _world.addSystem(weaponShootingSystem);
+    _world.addSystem(targetPredictingSystem);
   }
   
   void draw() {
     canvasManager.clearCanvas();
-    _renderingSystem.process(0);
+    _imageRenderingSystem.process(0);
     _uiSystem.process(0);
     if (settings.debug) _debuggingSystem.process(0);
   }

@@ -2,8 +2,8 @@ part of space;
 
 class ComponentAttacher {
   
-  void attachBulletComponents(Entity bullet) {
-    RenderComponent rc = new RenderComponent();
+  void attachBulletComponents(Entity bullet, double xVel, double yVel) {
+    ImageComponent rc = new ImageComponent();
     rc.imageScaler = 2;
     rc.sourceWidth = 12;
     rc.sourceHeight = 23;
@@ -28,8 +28,8 @@ class ComponentAttacher {
     bullet.addComponent(ac);
     
     VelocityComponent vc = new VelocityComponent();
-    vc.velocity = new Vector2(2000.0, 0.0);
-    vc.maxVelocity = 2000;
+    vc.velocity = new Vector2(xVel, yVel);
+    vc.maxVelocity = vc.velocity.length;
     bullet.addComponent(vc);
     
     CollisionComponent cc = new CollisionComponent();
@@ -38,7 +38,7 @@ class ComponentAttacher {
   }
   
   void attachTargetComponents(Entity target, int attachId) {
-    RenderComponent rc = new RenderComponent();
+    ImageComponent rc = new ImageComponent();
     rc.imageScaler = 1;
     rc.sourceWidth = 256;
     rc.sourceHeight = 256;
@@ -57,10 +57,12 @@ class ComponentAttacher {
     ac.targetId = attachId;
     ac.offset = new Vector2.zero();
     target.addComponent(ac);
+    
+    target.addComponent(new TargetComponent());
   }
   
   void attachPlayerComponents(Entity player) {
-    RenderComponent rc = new RenderComponent();
+    ImageComponent rc = new ImageComponent();
     rc.imageScaler = 1;
     rc.sourceWidth = 182;
     rc.sourceHeight = 248;
@@ -97,7 +99,7 @@ class ComponentAttacher {
   }
   
   void attachTurretComponents(Entity turret, int attachId) {
-    RenderComponent rc = new RenderComponent();
+    ImageComponent rc = new ImageComponent();
     rc.imageScaler = 2;
     rc.sourceWidth = 14;
     rc.sourceHeight = 45;
@@ -122,17 +124,21 @@ class ComponentAttacher {
     turret.addComponent(ac);
     
     WeaponTriggerComponent wtc = new WeaponTriggerComponent();
-    wtc.triggered = false;
+    wtc.triggered = true;
     turret.addComponent(wtc);
     
     RepeatingWeaponComponent rwc = new RepeatingWeaponComponent();
     rwc.timeBetweenShots = 100;
     rwc.timeSinceLast = 0;
     turret.addComponent(rwc);
+    
+    turret.addComponent(new PlayerWeaponComponent());
+    
+    turret.addComponent(new PredictingWeaponComponent());
   }
   
   void attachBasicEnemyComponents(Entity enemy) {
-    RenderComponent rc = new RenderComponent();
+    ImageComponent rc = new ImageComponent();
     rc.imageScaler = 0.5;
     rc.sourceWidth = 182;
     rc.sourceHeight = 248;

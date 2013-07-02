@@ -15,7 +15,7 @@ class EntitySpawningSystem implements System {
   }
   
   void _addBackground() {    
-    RenderComponent rc = new RenderComponent();
+    ImageComponent rc = new ImageComponent();
     rc.imageScaler = 2;
     rc.sourceWidth = 2048;
     rc.sourceHeight = 1536;

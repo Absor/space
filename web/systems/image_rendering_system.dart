@@ -1,6 +1,6 @@
 part of space;
 
-class RenderingSystem implements System {
+class ImageRenderingSystem implements System {
   
   bool enabled;
   int priority;
@@ -9,7 +9,7 @@ class RenderingSystem implements System {
   
   Entity _centerEntity;
     
-  RenderingSystem() {
+  ImageRenderingSystem() {
     _renderables = new List<Entity>();
   }
   
@@ -20,7 +20,7 @@ class RenderingSystem implements System {
     Vector2 centerPosition = cpc.position;
     
     for (Entity entity in _renderables) {
-      RenderComponent renderable = entity.getComponent(RenderComponent);
+      ImageComponent renderable = entity.getComponent(ImageComponent);
       PositionComponent pc = entity.getComponent(PositionComponent);
       Vector2 position = pc.position;
       canvasManager.context.save();
@@ -54,7 +54,7 @@ class RenderingSystem implements System {
   }
   
   void entityActivation(Entity entity) {
-    if (entity.hasComponent(RenderComponent) &&
+    if (entity.hasComponent(ImageComponent) &&
         entity.hasComponent(PositionComponent)) {
       _renderables.add(entity);
     }
