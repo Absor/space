@@ -19,13 +19,40 @@ class WeaponShootingSystem implements System {
         RotationComponent rc = weapon.getComponent(RotationComponent);
         WeaponAttributesComponent wac = weapon.getComponent(WeaponAttributesComponent);
         Entity bullet = _world.createEntity(idManager.getFreeId());
-        componentAttacher.attachBulletComponents(bullet,
+        attachBulletComponents(bullet,
             (wac.startVelocity*sin(rc.angleInRadians)).toDouble(),
             (wac.startVelocity*cos(rc.angleInRadians)).toDouble());
         _world.activateEntity(bullet.id);
       }
       wtc.triggered = true;
     }
+  }
+  
+  void attachBulletComponents(Entity bullet, double xVel, double yVel) {
+    ImageComponent rc = assetManager.getAsset("image_component", "testbullet");
+    bullet.addComponent(rc);
+    
+    PositionComponent pc = new PositionComponent();
+    pc.position = new Vector2.zero();
+    bullet.addComponent(pc);
+    
+    RotationComponent rotation = new RotationComponent();
+    rotation.angleInDegrees = 0;
+    bullet.addComponent(rotation);
+    
+    AccelerationComponent ac = new AccelerationComponent();
+    ac.acceleration = new Vector2(0.0, 0.0);
+    ac.maxForce = 0;
+    bullet.addComponent(ac);
+    
+    VelocityComponent vc = new VelocityComponent();
+    vc.velocity = new Vector2(xVel, yVel);
+    vc.maxVelocity = vc.velocity.length;
+    bullet.addComponent(vc);
+    
+    CollisionComponent cc = new CollisionComponent();
+    cc.collisionRadius = 10;
+    bullet.addComponent(cc);
   }
     
   void attachWorld(World world) {

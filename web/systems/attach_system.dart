@@ -23,7 +23,7 @@ class AttachSystem implements System {
       pc.position.setFrom(tpc.position);
       // rotation + offset
       Vector2 offset;
-      if (entity.hasComponent(RotationComponent)) {
+      if (targetEntity.hasComponent(RotationComponent)) {
         RotationComponent rc = targetEntity.getComponent(RotationComponent);
         num sinAngle = sin(rc.angleInRadians);
         num cosAngle = cos(rc.angleInRadians);

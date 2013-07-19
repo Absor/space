@@ -130,10 +130,9 @@ class DebuggingSystem implements System {
       canvasManager.context.translate(        canvasManager.canvasDrawArea.right,
           canvasManager.canvasDrawArea.bottom);
       canvasManager.context.scale(canvasManager.drawScaler, canvasManager.drawScaler);
-      int px = (canvasManager.drawScaler * 30).ceil();
-      canvasManager.context.font = px.toString() + "px Arial";
+      canvasManager.context.font = "30px Arial";
       canvasManager.context.fillStyle = "green";
-      canvasManager.context.fillText("Entities: $_entityCount", -100, -10);
+      canvasManager.context.fillText("Entities: $_entityCount", -160, -10);
       canvasManager.context.restore();
     }
   }

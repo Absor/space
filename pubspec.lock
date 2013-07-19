@@ -5,6 +5,18 @@ packages:
     description: browser
     source: hosted
     version: "0.5.13"
+  json_object:
+    description: json_object
+    source: hosted
+    version: "1.0.15+3"
+  meta:
+    description: meta
+    source: hosted
+    version: "0.5.20"
+  pathos:
+    description: pathos
+    source: hosted
+    version: "0.5.20"
   siege_engine:
     description:
       ref: null

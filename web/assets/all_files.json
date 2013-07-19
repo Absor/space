@@ -1,10 +1,14 @@
 {
   "images" : [
-    "assets/images/background.png"
+    "assets/images/background.png",
+    "assets/images/image_components.png"
   ],
-  "sound" : [
+  "sounds" : [
   ],
-  "json" : {
-    "image_components" : "assets/json/image_components.json"
-  }
+  "jsonFiles" : [
+    "assets/json/image_components.json",
+    "assets/json/image_components_extras.json",
+    "assets/json/image_components_offsets.json",
+    "assets/json/ship_bases.json"
+  ]
 }

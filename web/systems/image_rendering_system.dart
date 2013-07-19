@@ -25,9 +25,9 @@ class ImageRenderingSystem implements System {
       Vector2 position = pc.position;
       canvasManager.context.save();
       num distanceScaler = canvasManager.drawScaler * settings.pixelsPerMeter;
-      canvasManager.context.translate(
-          (position.x - centerPosition.x) * distanceScaler + canvasManager.canvasMiddlePoint.x,
-          (position.y - centerPosition.y) * distanceScaler + canvasManager.canvasMiddlePoint.y);
+      canvasManager.context.translate(canvasManager.canvasMiddlePoint.x, canvasManager.canvasMiddlePoint.y);
+      canvasManager.context.scale(distanceScaler, distanceScaler);
+      canvasManager.context.translate((position.x - centerPosition.x), (position.y - centerPosition.y));
       if (entity.hasComponent(RotationComponent)) {
         RotationComponent rotation = entity.getComponent(RotationComponent);
         canvasManager.context.rotate(rotation.angleInRadians);
@@ -36,8 +36,10 @@ class ImageRenderingSystem implements System {
         AlphaComponent ac = entity.getComponent(AlphaComponent);
         canvasManager.context.globalAlpha = ac.alpha;
       }
-      num imageScaler = renderable.imageScaler * distanceScaler;
-      canvasManager.context.scale(imageScaler, imageScaler);
+      if (entity.hasComponent(ImageScalingComponent)) {
+        ImageScalingComponent isc = entity.getComponent(ImageScalingComponent);
+        canvasManager.context.scale(isc.imageScaler, isc.imageScaler);
+      }
       canvasManager.context.drawImageScaledFromSource(renderable.source,
           renderable.sourceX, renderable.sourceY,
           renderable.sourceWidth, renderable.sourceHeight,

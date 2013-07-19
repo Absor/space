@@ -69,12 +69,28 @@ class UISystem implements System {
   void _setTarget(int id) {
     if (_target == null) {
       _target = _world.createEntity(idManager.getFreeId());
-      componentAttacher.attachTargetComponents(_target, id);
+      attachTargetComponents(_target, id);
       _world.activateEntity(_target.id);
     } else {
       AttachComponent ac = _target.getComponent(AttachComponent);
       ac.targetId = id;
     }
+  }
+  
+  void attachTargetComponents(Entity target, int attachId) {
+    ImageComponent ic = assetManager.getAsset("image_component", "target");
+    target.addComponent(ic);
+    
+    PositionComponent pc = new PositionComponent();
+    pc.position = new Vector2.zero();
+    target.addComponent(pc);
+    
+    AttachComponent ac = new AttachComponent();
+    ac.targetId = attachId;
+    ac.offset = new Vector2.zero();
+    target.addComponent(ac);
+    
+    target.addComponent(new TargetComponent());
   }
     
   void attachWorld(World world) {

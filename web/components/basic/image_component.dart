@@ -8,5 +8,4 @@ class ImageComponent extends Component {
   num sourceHeight;
   num xOffset;
   num yOffset;
-  num imageScaler;
 }

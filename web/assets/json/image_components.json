@@ -1,44 +1,44 @@
 {"frames": [
 
 {
-	"filename": "target.png",
-	"frame": {"x":2,"y":2,"w":242,"h":194},
+	"filename": "target",
+	"frame": {"x":182,"y":0,"w":242,"h":194},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":7,"y":9,"w":242,"h":194},
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "testbullet.png",
-	"frame": {"x":496,"y":49,"w":12,"h":23},
+	"filename": "testbullet",
+	"frame": {"x":196,"y":194,"w":12,"h":23},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":23},
 	"sourceSize": {"w":12,"h":23}
 },
 {
-	"filename": "testship.png",
-	"frame": {"x":246,"y":2,"w":182,"h":248},
-	"rotated": true,
+	"filename": "testship",
+	"frame": {"x":0,"y":0,"w":182,"h":248},
+	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":182,"h":248},
 	"sourceSize": {"w":182,"h":248}
 },
 {
-	"filename": "testturret.png",
-	"frame": {"x":496,"y":2,"w":14,"h":45},
+	"filename": "testturret",
+	"frame": {"x":182,"y":194,"w":14,"h":45},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":45},
 	"sourceSize": {"w":14,"h":45}
 }],
 "meta": {
-	"app": "http://www.codeandweb.com/texturepacker ",
+	"app": "http://www.texturepacker.com",
 	"version": "1.0",
-	"image": "atlas.png",
+	"image": "image_components.png",
 	"format": "RGBA8888",
-	"size": {"w":512,"h":198},
+	"size": {"w":424,"h":248},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:18f66c4c3f2dfff3406dc8721846691f$"
+	"smartupdate": "$TexturePacker:SmartUpdate:c4b3e9ef4c1deba92c9281a3f87288c6$"
 }
 }
