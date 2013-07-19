@@ -1,0 +1,8 @@
+packages
+*/packages
+.*
+!.gitignore
+*.js_
+*.js.deps
+*.js.map
+*.dart.js
